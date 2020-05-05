@@ -94,9 +94,9 @@ class EdgeOSWebAPI:
 
             credentials = {CONF_USERNAME: username, CONF_PASSWORD: password}
 
-            url = self._config_manager.data.url
+            url = self._config_manager.data.url.get_url()
 
-            async with self._session.post(url, data=credentials, ssl=False) as response:
+            async with self._session.post(url, data=credentials) as response:
                 all_cookies = self._session.cookie_jar.filter_cookies(response.url)
 
                 for key, cookie in all_cookies.items():
@@ -144,7 +144,7 @@ class EdgeOSWebAPI:
         result = None
 
         try:
-            async with self._session.get(url, ssl=False) as response:
+            async with self._session.get(url) as response:
                 _LOGGER.debug(f"Status of {url}: {response.status}")
 
                 self._is_connected = response.status < 400

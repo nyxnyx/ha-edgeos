@@ -4,7 +4,7 @@ from homeassistant.const import CONF_HOST, CONF_NAME, CONF_PASSWORD, CONF_USERNA
 from ..helpers.const import *
 from ..models.config_data import ConfigData
 from .password_manager import PasswordManager
-
+import urllib.parse
 
 class ConfigManager:
     data: ConfigData
@@ -37,7 +37,7 @@ class ConfigManager:
         result = ConfigData()
 
         if data is not None:
-            result.host = data.get(CONF_HOST)
+            result.host = urllib.parse.urlparse(data.get(CONF_HOST))
             result.name = data.get(CONF_NAME, DEFAULT_NAME)
             result.username = data.get(CONF_USERNAME)
             result.password = data.get(CONF_PASSWORD)
